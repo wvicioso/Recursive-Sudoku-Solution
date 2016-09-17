@@ -2,7 +2,6 @@ require 'pry'
 
 class Sudoku
   attr_accessor :board
-  # :board_array
   attr_reader :possibles
 
       STARTING_POINTS = {
@@ -20,23 +19,27 @@ class Sudoku
 
   def initialize(board_string)
     @board = board_string
-    # @board_array = board_to_array(board_string)
     @possibles = '123456789'
   end
 
   def solve
     until solved?
       board.split('').each_with_index do |element, idx|
-
         if element == '-'
-          possible_nums = current_possibles(idx)
-          update_board(idx, possible_nums) if single_solution?(possible_nums)
+         possible_nums = current_possibles(idx)
+          return 0 if possible_nums.length == 0
+          i = 0
+          until i == possible_nums.length
+            recursive_board = @board
+            recursive_board[idx] = possible_nums[i].to_s unless possible_nums[i].to_s == "" 
+            i += 1 if Sudoku.new(recursive_board).solve == 0
+          end
         end
       end
-      self.pretty_board
-      solve
     end
   end
+
+
 
   def solved?
     return true unless board.include?('-')
@@ -51,19 +54,12 @@ class Sudoku
     board_string.chars.each_slice(9).to_a
   end
 
-
-
-
   def find_super_box_index(value_index)
-    # box_num = value_index % 27 
-    # relative_col = col_num % 3 
-    # rel_row = row_num % 3 
 
     box_row = value_index / 27
     box_col = value_index / 3 % 3
     STARTING_POINTS[[box_row,box_col]].values.first
   end 
-
 
   def get_box(box_start)
     x = box_start
@@ -85,8 +81,6 @@ class Sudoku
     board_to_array(board)[row_num].join
   end
 
-
-
   def current_possibles(idx)
     box = get_box(find_super_box_index(idx))
     row = get_rows(idx)
@@ -99,6 +93,7 @@ class Sudoku
   def single_solution?(possible_nums)
     possible_nums.length == 1
   end
+
 
   def update_board(idx, possible_nums)
       @board[idx] = possible_nums[0].to_s
