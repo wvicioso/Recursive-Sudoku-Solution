@@ -12,9 +12,9 @@ require_relative 'sudoku'
 # Remember, the file has newline characters at the end of each line,
 # so we call String#chomp to remove them.
 
-board_string = File.readlines('sudoku_puzzles.txt')[0].chomp
+board_string = File.readlines('sudoku_puzzles.txt').first.chomp
 
-board = Sudoku.new(board_string)
+board = Sudoku.new("1-58-2----9--764-52--4--819-19--73-6762-83-9-----61-5---76---3-43--2-5-16--3-89--")
 
 # p board.board
 

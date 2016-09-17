@@ -28,8 +28,10 @@ class Sudoku
       board.split('').each_with_index do |element, idx|
 
         if element == '-'
+
           possible_nums = current_possibles(idx)
           update_board(idx, possible_nums) if single_solution?(possible_nums)
+          # guess_number(idx, possible_nums) if more_than_one_solution(possible_nums) 
         end
       end
       self.pretty_board
@@ -38,7 +40,8 @@ class Sudoku
   end
 
   def solved?
-    return false if board.include?('-')
+    return false if board.include?('-') 
+    # return false if board.split('').reduce(:+) != 405
     if board.split('').reduce(:+) == 405
       true
     end
@@ -86,12 +89,23 @@ class Sudoku
     box = get_box(find_super_box_index(idx))
     row = get_rows(idx)
     col = get_cols(idx)
-    @possibles.split('').reject {|item| (box + row + col).split('').include?(item)}.join('')
+    # binding.pry
+    test = @possibles.split('').reject {|item| (box + row + col).split('').include?(item)}.join('')
+    # binding.pry
+    test
   end
 
   def single_solution?(possible_nums)
     possible_nums.length == 1
   end
+
+  def more_than_one_solution(possible_nums)
+    possible_nums.length > 1
+  end 
+
+  def guess_number(idx, possible_nums)
+    @board[idx] = possible_nums.split("").sample.to_s
+  end 
 
   def update_board(idx, possible_nums)
       @board[idx] = possible_nums[0].to_s
