@@ -12,21 +12,22 @@ require_relative 'sudoku'
 # Remember, the file has newline characters at the end of each line,
 # so we call String#chomp to remove them.
 
-board_string = File.readlines('sudoku_puzzles.txt').first.chomp
+board_string1 = File.readlines('sudoku_puzzles.txt').first.chomp
 
-solved_board = Sudoku.new(board_string)
 
-p solved_board.board
-
-p solved_board.get_box
-
-p solved_board.board
+board = Sudoku.new(board_string1)
 
 
 
-# if solved?(solved_board)
-#   puts "The board was solved!"
-#   puts pretty_board(solved_board)
-# else
-#   puts "The board wasn't solved :("
-# end
+board.solve
+
+	if board.solved?
+		puts "The board was solved!"
+		puts board.pretty_board
+	else
+		p board.board
+		puts "The board wasn't solved :("
+	end
+
+
+
