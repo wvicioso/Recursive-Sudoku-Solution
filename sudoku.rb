@@ -23,17 +23,22 @@ class Sudoku
   end
 
   def solve
-    until solved?
+    if solved?
+      return 'You Did It!'
+    else
       board.split('').each_with_index do |element, idx|
         if element == '-'
-         possible_nums = current_possibles(idx)
+          possible_nums = current_possibles(idx)
           return 0 if possible_nums.length == 0
-          i = 0
-          until i == possible_nums.length
-            recursive_board = @board
-            recursive_board[idx] = possible_nums[i].to_s unless possible_nums[i].to_s == "" 
-            i += 1 if Sudoku.new(recursive_board).solve == 0
+          p board
+############## The bug is here ###############################
+          possible_nums.chars.each_with_index do|i, index|
+            update_board(idx, i)
+            current = Sudoku.new(board).solve
+            update_board(idx, "-") if current == 0 && idx != 0 
+            return if current == 'You Did It!'
           end
+#######################################################################
         end
       end
     end
@@ -41,13 +46,12 @@ class Sudoku
 
 
 
-  def solved?
-    return true unless board.include?('-')
-    false
 
-    # if board.split('').reduce(:+) == 405
-    #   true
-    # end
+
+
+  def solved?
+    return true unless board.include?('-') || board.split('').reduce(0) {|sum, num| sum + num.to_i} != 405
+    false
   end
 
   def board_to_array(board_string)
@@ -55,7 +59,6 @@ class Sudoku
   end
 
   def find_super_box_index(value_index)
-
     box_row = value_index / 27
     box_col = value_index / 3 % 3
     STARTING_POINTS[[box_row,box_col]].values.first
@@ -95,14 +98,23 @@ class Sudoku
   end
 
 
-  def update_board(idx, possible_nums)
-      @board[idx] = possible_nums[0].to_s
+  def update_board(idx, possible)
+      @board[idx] = possible
+
+      # @board[idx] = possible_nums[0].to_s
   end
 
 
   def pretty_board
     board_array = []
     board_array << board_to_array(@board)
-    board_array.map { |row| row.join('  ') }.join("\n")
+    board_array.map { |row| row.join('  ') }.join("\n") 
   end
 end
+
+
+
+
+
+
+

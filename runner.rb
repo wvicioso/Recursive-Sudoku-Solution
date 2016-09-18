@@ -1,29 +1,34 @@
 require_relative 'sudoku'
 
-# The sudoku puzzles that your program will solve can be found
-# in the sudoku_puzzles.txt file.
-#
-# Currently, Line 18 defines the variable board_string to equal
-# the first puzzle (i.e., the first line in the .txt file).
-# After your program can solve this first puzzle, edit
-# the code below, so that the program tries to solve
-# all of the puzzles.
-#
-# Remember, the file has newline characters at the end of each line,
-# so we call String#chomp to remove them.
+board1 = "1-58-2----9--764-52--4--819-19--73-6762-83-9-----61-5---76---3-43--2-5-16--3-89--"
+board2 = "--5-3--819-285--6-6----4-5---74-283-34976---5--83--49-15--87--2-9----6---26-495-3"
+board3 = "29-5----77-----4----4738-129-2--3-648---5--7-5---672--3-9--4--5----8-7---87--51-9"
+board4 = "-8--2-----4-5--32--2-3-9-466---9---4---64-5-1134-5-7--36---4--24-723-6-----7--45-"
+board5 = "6-873----2-----46-----6482--8---57-19--618--4-31----8-86-2---39-5----1--1--4562--"
+board6 = "---6891--8------2915------84-3----5-2----5----9-24-8-1-847--91-5------6--6-41----"
+board7 = "-3-5--8-45-42---1---8--9---79-8-61-3-----54---5------78-----7-2---7-46--61-3--5--"
+board8 = "-96-4---11---6---45-481-39---795--43-3--8----4-5-23-18-1-63--59-59-7-83---359---7"
+board9 = "----754----------8-8-19----3----1-6--------34----6817-2-4---6-39------2-53-2-----"
+board10 = "3---------5-7-3--8----28-7-7------43-----------39-41-54--3--8--1---4----968---2--"
+board11 = "3-26-9--55--73----------9-----94----------1-9----57-6---85----6--------3-19-82-4-"
+board12 = "-2-5----48-5--------48-9-2------5-73-9-----6-25-9------3-6-18--------4-71----4-9-"
+board13 = "--7--8------2---6-65--79----7----3-5-83---67-2-1----8----71--38-2---5------4--2--"
+board14 = "----------2-65-------18--4--9----6-4-3---57-------------------73------9----------"
+board15 = "---------------------------------------------------------------------------------"
 
-board_string1 = File.readlines('sudoku_puzzles.txt').first.chomp
+# board_string1 = File.readlines('sudoku_puzzles.txt').first.chomp
+
+#change the board number to the one you want to test
+board = Sudoku.new(board1)
 
 
-board = Sudoku.new(board_string1)
 
-
-
+#board 1 and 2 get solved recursively.
 board.solve
 
 	if board.solved?
 		puts "The board was solved!"
-		puts board.pretty_board
+		p board.pretty_board
 	else
 		p board.board
 		puts "The board wasn't solved :("
