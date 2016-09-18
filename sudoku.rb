@@ -23,30 +23,21 @@ class Sudoku
   end
 
   def solve
+    # unless solved?
       board.split('').each_with_index do |element, idx|
 
         if element == '-'
-          possible_nums = current_possibles(idx)
-          p possible_nums         
+          possible_nums = current_possibles(idx)        
           update_board(idx, possible_nums) if single_solution?(possible_nums)
         end
       end
 
-      # if solved? 
-      #   exit
-      # else
-      #   solve
-      # end
-      # board_after = board
-      # solve if board.split('').any? {|element| element.include?('-')}
-      # binding.pry
-
-      p board
+    # end
+    # solve
   end
 
   def solved?
     !board.include?("-")
-    # binding.pry
     # board.split('').reduce(0){|total, element| total += element.to_i} == 405
   end
 
@@ -58,22 +49,13 @@ class Sudoku
   def get_cols(idx)
     col_num = idx % 9
     board_arr = board_to_array(board)
-    # board_copy = String.new(board)
-    # board_arr =  board_copy.chars.each_slice(9).to_a
     board_arr.transpose[col_num].join
-
-    # board_array.transpose[col_num].join
   end 
  
   def get_rows(idx)
     row_num = idx / 9 
     board_arr = board_to_array(board)
-
-    # board_copy = String.new(board)
-    # board_arr =  board_copy.chars.each_slice(9).to_a
     board_arr[row_num].join
-
-    # board_array[row_num].join
   end
 
 
@@ -125,11 +107,28 @@ class Sudoku
   end
 
 
-  def pretty_board
-    board_array = []
-    board_array << board_to_array(@board)
-    puts board_array.map { |row| row.join('  ') }.join("\n")
-  end
+  # def pretty_board
+  #   board_to_array(@board)
+  #   # board_array = []
+  #   # board_array << board_to_array(@board)
+  #   # puts board_array.map { |row| row.join('  ') }.join("\n")
+  # end
+
+def pretty_board
+  board_array = []
+  board_array << board_to_array(@board)
+  board = board_array.map { |row| row.join('  ') }.join("\n")
+  # board.insert(3, "------  ------  ------" )
+  # board.insert(7, "------  ------  ------" )
+  # board.map do |row|
+  #   if row.kind_of?(Array)
+  #     row.insert(3, "|")
+  #     row.insert(7, "|")
+  #     row.join(" ")
+  #   end
+  # end
+end
+
 end
 
 
