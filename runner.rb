@@ -22,7 +22,10 @@ board = Sudoku.new("1-58-2----9--764-52--4--819-19--73-6762-83-9-----61-5---76--
 
 # p board.board
 
-board.solve
+4.times do 
+  board.solve
+end
+
 if board.solved?
   puts "The board was solved!"
   puts board.pretty_board

@@ -18,55 +18,66 @@ class Sudoku
  
 
   def initialize(board_string)
-    @board = board_string
-    @board_array = board_to_array(board_string)
+    @board = String.new(board_string)
     @possibles = '123456789'
   end
 
   def solve
-    unless solved?
       board.split('').each_with_index do |element, idx|
 
         if element == '-'
-
           possible_nums = current_possibles(idx)
+          p possible_nums         
           update_board(idx, possible_nums) if single_solution?(possible_nums)
-          # guess_number(idx, possible_nums) if more_than_one_solution(possible_nums) 
         end
       end
-      self.pretty_board
-      solve
-    end
+
+      # if solved? 
+      #   exit
+      # else
+      #   solve
+      # end
+      # board_after = board
+      # solve if board.split('').any? {|element| element.include?('-')}
+      # binding.pry
+
+      p board
   end
 
   def solved?
-    return false if board.include?('-') 
-    # return false if board.split('').reduce(:+) != 405
-    if board.split('').reduce(:+) == 405
-      true
-    end
+    !board.include?("-")
+    # binding.pry
+    # board.split('').reduce(0){|total, element| total += element.to_i} == 405
   end
 
-  def board_to_array(board_string)
-    board_string.chars.each_slice(9).to_a
+  def board_to_array(board)
+    board_copy = String.new(board)
+    board_copy.chars.each_slice(9).to_a
   end
 
   def get_cols(idx)
     col_num = idx % 9
-    board_array.transpose[col_num].join
+    board_arr = board_to_array(board)
+    # board_copy = String.new(board)
+    # board_arr =  board_copy.chars.each_slice(9).to_a
+    board_arr.transpose[col_num].join
+
+    # board_array.transpose[col_num].join
   end 
  
   def get_rows(idx)
     row_num = idx / 9 
-    board_array[row_num].join
+    board_arr = board_to_array(board)
+
+    # board_copy = String.new(board)
+    # board_arr =  board_copy.chars.each_slice(9).to_a
+    board_arr[row_num].join
+
+    # board_array[row_num].join
   end
 
 
   def find_super_box_index(value_index)
-    # box_num = value_index % 27 
-    # relative_col = col_num % 3 
-    # rel_row = row_num % 3 
-
     box_row = value_index / 27
     box_col = value_index / 3 % 3
     STARTING_POINTS[[box_row,box_col]].values.first
@@ -89,10 +100,12 @@ class Sudoku
     box = get_box(find_super_box_index(idx))
     row = get_rows(idx)
     col = get_cols(idx)
-    # binding.pry
-    test = @possibles.split('').reject {|item| (box + row + col).split('').include?(item)}.join('')
-    # binding.pry
-    test
+    delete_this = box + row + col
+
+    updated_possibles = possibles.delete delete_this.delete("-")
+    updated_possibles
+
+ 
   end
 
   def single_solution?(possible_nums)
@@ -108,7 +121,7 @@ class Sudoku
   end 
 
   def update_board(idx, possible_nums)
-      @board[idx] = possible_nums[0].to_s
+    @board[idx] = possible_nums[0].to_s
   end
 
 
@@ -119,13 +132,4 @@ class Sudoku
   end
 end
 
-
-# this = Sudoku.new("1-5  8-2  ---  
-#                    -9-  -76 4-5
-#                    2--  4--819-19--73-6762-83-9-----61-5---76---3-43--2-5-16--3-89--")
-
-# nan = this.find_super_box_index(2)
-
-
-# p this.get_box(nan)
 
