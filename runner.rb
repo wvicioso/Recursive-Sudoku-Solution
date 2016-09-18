@@ -14,19 +14,19 @@ require_relative 'sudoku'
 
 board_string = File.readlines('sudoku_puzzles.txt').first.chomp
 
-solved_board = Sudoku.new(board_string)
+board = Sudoku.new("1-58-2----9--764-52--4--819-19--73-6762-83-9-----61-5---76---3-43--2-5-16--3-89--")
 
-p solved_board.board
+# p board.board
 
-p solved_board.get_box
+# p board.get_box
 
-p solved_board.board
+# p board.board
 
+board.solve
+if board.solved?
+  puts "The board was solved!"
+  puts board.pretty_board
+else
+  puts "The board wasn't solved :("
 
-
-# if solved?(solved_board)
-#   puts "The board was solved!"
-#   puts pretty_board(solved_board)
-# else
-#   puts "The board wasn't solved :("
-# end
+end
