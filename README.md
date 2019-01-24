@@ -1,4 +1,4 @@
-# NanCatVicious
+# Recursive Sudoku Solution
 Recursive sudoku solution
 
 ## How it works
